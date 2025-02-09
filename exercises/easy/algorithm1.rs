@@ -6,7 +6,7 @@
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
+
 
 #[derive(Debug)]
 struct Node<T> {
@@ -71,7 +71,7 @@ impl<T> LinkedList<T> {
     }
     pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self
     where
-        T: PartialOrd,
+        T: PartialOrd + Clone,
     {
         let mut merged_list = Self {
             length: 0,
@@ -83,11 +83,11 @@ impl<T> LinkedList<T> {
         while let (Some(a), Some(b)) = (list_a.start, list_b.start) {
             unsafe {
                 if (*a.as_ptr()).val <= (*b.as_ptr()).val {
-                    merged_list.add((*a.as_ptr()).val);
+                    merged_list.add((*a.as_ptr()).val.clone());     
                     list_a.start = (*a.as_ptr()).next;
                     list_a.length -= 1;  // 更新链表长度
                 } else {
-                    merged_list.add((*b.as_ptr()).val);
+                    merged_list.add((*b.as_ptr()).val.clone());
                     list_b.start = (*b.as_ptr()).next;
                     list_b.length -= 1;  // 更新链表长度
                 }
@@ -97,7 +97,7 @@ impl<T> LinkedList<T> {
         // 处理剩余的 list_a 元素
         while let Some(a) = list_a.start {
             unsafe {
-                merged_list.add((*a.as_ptr()).val);
+                merged_list.add((*a.as_ptr()).val.clone());
                 list_a.start = (*a.as_ptr()).next;
                 list_a.length -= 1;  // 更新链表长度
             }
@@ -106,7 +106,7 @@ impl<T> LinkedList<T> {
         // 处理剩余的 list_b 元素
         while let Some(b) = list_b.start {
             unsafe {
-                merged_list.add((*b.as_ptr()).val);
+                merged_list.add((*b.as_ptr()).val.clone());
                 list_b.start = (*b.as_ptr()).next;
                 list_b.length -= 1;  // 更新链表长度
             }
