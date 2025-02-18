@@ -9,11 +9,29 @@
     Hint: Consider using the sliding window technique to efficiently solve this problem in O(n) time complexity.
 */
 
-use std::fmt::{self, Display, Formatter};
+
 
 pub fn longest_substring_without_repeating_chars(s: String) -> i32 {
     // TODO: Implement the logic to find the longest substring without repeating characters
-    0 // Placeholder return value
+    use std::collections::HashMap;
+    
+    let mut char_map = HashMap::new();
+    let mut max_len = 0;
+    let mut start = 0;
+
+    for(end,ch ) in s.chars().enumerate() {
+        if  let Some(&prev_index) = char_map.get(&ch){
+            if prev_index >= start {
+                start = prev_index +1;
+            }
+        }
+
+        char_map.insert(ch, end);
+        max_len = max_len.max(end - start +1);
+
+    }
+
+    return max_len as i32;
 }
 
 #[cfg(test)]
