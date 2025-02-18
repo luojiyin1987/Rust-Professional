@@ -9,11 +9,14 @@
     Hint: Consider normalizing the string by converting it to lowercase and removing non-alphabetical characters before checking.
 */
 
-use std::fmt::{self, Display, Formatter};
+
 
 pub fn is_palindrome(s: String) -> bool {
     // TODO: Implement the logic to check if the string is a palindrome
-    false // Placeholder return value
+    let normalized: String = s.chars().filter(|c| c.is_alphabetic()).map(|c| c.to_ascii_lowercase()).collect();
+
+    return normalized == normalized.chars().rev().collect::<String>();
+    
 }
 
 #[cfg(test)]
