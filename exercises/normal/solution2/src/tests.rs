@@ -1,4 +1,3 @@
-
 // src/tests.rs
 mod converter;
 #[cfg(test)]
@@ -21,9 +20,15 @@ mod tests {
 
         for (input1, input2, expected) in TEST_CASES {
             let result = convert_base(*input1, *input2);
+            println!(
+                "Input: {}, To Base: {}, Expected: {}, Got: {}",
+                input1, input2, expected, result
+            );
 
             if result == *expected {
                 total_score += 20.0;
+            } else {
+                println!("Test failed for input: {}", input1);
             }
         }
         println!("Total score: {:.2}", total_score);
